@@ -18,6 +18,13 @@ public class RedBlackTreeController {
     @FXML
     private Button insertButton;
 
+    //  Delete
+    //  Search
+    @FXML
+    private TextField searchValue;
+    @FXML
+    private Button searchButton;
+
     @FXML
     void buttonPressed(ActionEvent event) {
         if(event.getSource() == insertButton) {
@@ -26,6 +33,13 @@ public class RedBlackTreeController {
             insert(node);
             display(tree.getRoot(), 1);
             insertValue.setText("");
+            System.out.println();
+            System.out.println("-----------------------");
+            System.out.println();
+        } else if(event.getSource() == searchButton) {
+            int value = Integer.parseInt(searchValue.getText());
+            Node node = search(tree.getRoot(), value);
+            System.out.println("Found: " + node.getKey());
             System.out.println();
             System.out.println("-----------------------");
             System.out.println();
@@ -86,6 +100,13 @@ public class RedBlackTreeController {
         z.setLeftChild(Node.Nil);
         z.setRightChild(Node.Nil);
         z.setColor(Color.RED);
+    }
+
+    public Node search(Node w, int key) {
+        if(w == Node.Nil || w.getKey() == key) {
+            return w;
+        }
+        return search((key < w.getKey()) ? w.getLeftChild() : w.getRightChild(), key);
     }
 
     public void display(Node w, int indent) {
