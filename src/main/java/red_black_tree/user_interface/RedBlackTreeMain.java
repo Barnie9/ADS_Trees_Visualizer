@@ -15,9 +15,6 @@ public class RedBlackTreeMain extends Application {
         stage.setTitle("Red-Black Tree");
         stage.setScene(scene);
         stage.show();
-        // Test
-        // Test2
-        // Test3
     }
 
     public static void main(String[] args) {
