@@ -32,6 +32,42 @@ public class RedBlackTreeController {
         }
     }
 
+    public void leftRotate(Node x) {
+        Node y = x.getRightChild();
+        x.setRightChild(y.getLeftChild());
+        if(y.getLeftChild() != Node.Nil) {
+            y.getLeftChild().setParent(x);
+        }
+        y.setParent(x.getParent());
+        if(x.getParent() == Node.Nil) {
+            tree.setRoot(y);
+        } else if(x == x.getParent().getLeftChild()) {
+            x.getParent().setLeftChild(y);
+        } else {
+            x.getParent().setRightChild(y);
+        }
+        y.setLeftChild(x);
+        x.setParent(y);
+    }
+
+    public void rightRotate(Node x) {
+        Node y = x.getLeftChild();
+        x.setLeftChild(y.getRightChild());
+        if(y.getRightChild() != Node.Nil) {
+            y.getRightChild().setParent(x);
+        }
+        y.setParent(x.getParent());
+        if(x.getParent() == Node.Nil) {
+            tree.setRoot(y);
+        } else if(x == x.getParent().getLeftChild()) {
+            x.getParent().setLeftChild(y);
+        } else {
+            x.getParent().setRightChild(y);
+        }
+        y.setRightChild(x);
+        x.setParent(y);
+    }
+
     public void insert(Node z) {
         Node y = Node.Nil;
         Node x = tree.getRoot();
