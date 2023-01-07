@@ -205,6 +205,61 @@ public class RedBlackTreeController {
         }
         tree.getRoot().setColor(Color.BLACK);
     }
+    public void deleteFixup(Node x) {
+        Node w;
+        while(x != tree.getRoot() && x.getColor() == Color.BLACK) {
+            if(x == x.getParent().getLeftChild()) {
+                w = x.getParent().getRightChild();
+                if(w.getColor() == Color.RED) {
+                    w.setColor(Color.BLACK);
+                    x.getParent().setColor(Color.RED);
+                    leftRotate(x.getParent());
+                    w = x.getParent().getRightChild();
+                }
+                if(w.getLeftChild().getColor() == Color.BLACK && w.getRightChild().getColor() == Color.BLACK) {
+                    w.setColor(Color.RED);
+                    x = x.getParent();
+                } else {
+                    if(w.getRightChild().getColor() == Color.BLACK) {
+                        w.getRightChild().setColor(Color.BLACK);
+                        w.setColor(Color.RED);
+                        rightRotate(w);
+                        w = x.getParent().getRightChild();
+                    }
+                    w.setColor(x.getParent().getColor());
+                    x.getParent().setColor(Color.BLACK);
+                    w.getRightChild().setColor(Color.BLACK);
+                    leftRotate(x.getParent());
+                    x = tree.getRoot();
+                }
+            } else {
+                w = x.getParent().getLeftChild();
+                if(w.getColor() == Color.RED) {
+                    w.setColor(Color.BLACK);
+                    x.getParent().setColor(Color.RED);
+                    rightRotate(x.getParent());
+                    w = x.getParent().getLeftChild();
+                }
+                if(w.getLeftChild().getColor() == Color.BLACK && w.getRightChild().getColor() == Color.BLACK) {
+                    w.setColor(Color.RED);
+                    x = x.getParent();
+                } else {
+                    if(w.getLeftChild().getColor() == Color.BLACK) {
+                        w.getRightChild().setColor(Color.BLACK);
+                        w.setColor(Color.RED);
+                        leftRotate(w);
+                        w = x.getParent().getLeftChild();
+                    }
+                    w.setColor(x.getParent().getColor());
+                    x.getParent().setColor(Color.BLACK);
+                    w.getLeftChild().setColor(Color.BLACK);
+                    rightRotate(x.getParent());
+                    x = tree.getRoot();
+                }
+            }
+        }
+        x.setColor(Color.BLACK);
+    }
 
     public void delete(Node z) {
         Node y = (z.getLeftChild() == Node.Nil || z.getRightChild() == Node.Nil) ? z : successor(z);
