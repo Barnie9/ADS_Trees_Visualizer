@@ -36,21 +36,27 @@ public class RedBlackTreeController {
             int value = Integer.parseInt(insertValue.getText());
             Node node = new Node(value);
             insert(node);
+
+            generateLevels(tree.getRoot(), 1);
+
             display(tree.getRoot(), 1);
             insertValue.setText("");
 
             System.out.println();
-            System.out.println("-----------------------");
+            System.out.println("----------------------------------------------");
             System.out.println();
         } else if(event.getSource() == deleteButton) {
             int value = Integer.parseInt(deleteValue.getText());
             Node node = search(tree.getRoot(), value);
             delete(node);
+
+            generateLevels(tree.getRoot(), 1);
+
             display(tree.getRoot(), 1);
             deleteValue.setText("");
 
             System.out.println();
-            System.out.println("-----------------------");
+            System.out.println("----------------------------------------------");
             System.out.println();
         } else if(event.getSource() == searchButton) {
             int value = Integer.parseInt(searchValue.getText());
@@ -59,8 +65,16 @@ public class RedBlackTreeController {
 
             System.out.println("Found: " + node.getKey());
             System.out.println();
-            System.out.println("-----------------------");
+            System.out.println("----------------------------------------------");
             System.out.println();
+        }
+    }
+
+    public void generateLevels(Node x, int level) {
+        if(x != Node.Nil) {
+            generateLevels(x.getLeftChild(), level + 1);
+            generateLevels(x.getRightChild(), level + 1);
+            x.setLevel(level);
         }
     }
 
@@ -205,6 +219,7 @@ public class RedBlackTreeController {
         }
         tree.getRoot().setColor(Color.BLACK);
     }
+
     public void delete(Node z) {
         Node y = (z.getLeftChild() == Node.Nil || z.getRightChild() == Node.Nil) ? z : predecessor(z);
         Node x = (y.getLeftChild() != Node.Nil) ? y.getLeftChild() : y.getRightChild();
@@ -225,6 +240,7 @@ public class RedBlackTreeController {
             deleteFixup(x);
         }
     }
+
     public void deleteFixup(Node x) {
         Node w;
         while(x != tree.getRoot() && x.getColor() == Color.BLACK) {
@@ -290,12 +306,12 @@ public class RedBlackTreeController {
 
     public void display(Node w, int indent) {
         if(w != Node.Nil) {
-            display(w.getRightChild(), indent + 2);
+            display(w.getRightChild(), indent + 5);
             for(int i = 0; i < indent; i++) {
                 System.out.print(" ");
             }
-            System.out.println(w.getKey() + " " + w.getColor().toString());
-            display(w.getLeftChild(), indent + 2);
+            System.out.println(w.getLevel() + " : " + w.getKey() + " " + w.getColor().toString());
+            display(w.getLeftChild(), indent + 5);
         }
     }
 }
