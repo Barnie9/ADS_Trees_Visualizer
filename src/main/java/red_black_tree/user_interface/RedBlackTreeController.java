@@ -19,6 +19,11 @@ public class RedBlackTreeController {
     private Button insertButton;
 
     //  Delete
+    @FXML
+    private TextField deleteValue;
+    @FXML
+    private Button deleteButton;
+
     //  Search
     @FXML
     private TextField searchValue;
