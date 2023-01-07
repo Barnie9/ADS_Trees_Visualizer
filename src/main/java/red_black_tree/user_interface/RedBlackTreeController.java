@@ -206,7 +206,7 @@ public class RedBlackTreeController {
         tree.getRoot().setColor(Color.BLACK);
     }
     public void delete(Node z) {
-        Node y = (z.getLeftChild() == Node.Nil || z.getRightChild() == Node.Nil) ? z : successor(z);
+        Node y = (z.getLeftChild() == Node.Nil || z.getRightChild() == Node.Nil) ? z : predecessor(z);
         Node x = (y.getLeftChild() != Node.Nil) ? y.getLeftChild() : y.getRightChild();
         x.setParent(y.getParent());
         if(y.getParent() == Node.Nil) {
