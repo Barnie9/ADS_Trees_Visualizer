@@ -119,42 +119,4 @@ public class RedBlackTreeController {
             display(w.getLeftChild(), indent + 2);
         }
     }
-    public void insertFixup(Node z) {
-        while(z.getParent().getColor() == Color.RED) {
-            if(z.getParent() == z.getParent().getParent().getLeftChild()) {
-                Node y = z.getParent().getParent().getRightChild();
-                if (y.getColor() == Color.RED) {
-                    z.getParent().setColor(Color.BLACK);
-                    y.setColor(Color.BLACK);
-                    z.getParent().getParent().setColor(Color.RED);
-                    z = z.getParent().getParent();
-                } else {
-                    if (z == z.getParent().getRightChild()) {
-                        z = z.getParent();
-                        leftRotate(z);
-                    }
-                    z.getParent().setColor(Color.BLACK);
-                    z.getParent().getParent().setColor(Color.RED);
-                    rightRotate(z.getParent().getParent());
-                }
-            } else {
-                Node y = z.getParent().getParent().getLeftChild();
-                if(y.getColor() == Color.RED) {
-                    z.getParent().setColor(Color.BLACK);
-                    y.setColor(Color.BLACK);
-                    z.getParent().getParent().setColor(Color.RED);
-                    z = z.getParent().getParent();
-                } else {
-                    if (z == z.getParent().getLeftChild()) {
-                        z = z.getParent();
-                        rightRotate(z);
-                    }
-                    z.getParent().setColor(Color.BLACK);
-                    z.getParent().getParent().setColor(Color.RED);
-                   leftRotate(z.getParent().getParent());
-                }
-            }
-            tree.getRoot().setColor(Color.BLACK);
-        }
-    }
 }
