@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                red_black_tree.user_interface/red_black_tree.user_interface.HelloApplication
+                                red_black_tree.user_interface/red_black_tree.user_interface.RedBlackTreeMain
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
