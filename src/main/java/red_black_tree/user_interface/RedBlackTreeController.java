@@ -18,6 +18,13 @@ public class RedBlackTreeController {
     @FXML
     private Button insertButton;
 
+    //  Delete
+    //  Search
+    @FXML
+    private TextField searchValue;
+    @FXML
+    private Button searchButton;
+
     @FXML
     void buttonPressed(ActionEvent event) {
         if(event.getSource() == insertButton) {
@@ -29,7 +36,50 @@ public class RedBlackTreeController {
             System.out.println();
             System.out.println("-----------------------");
             System.out.println();
+        } else if(event.getSource() == searchButton) {
+            int value = Integer.parseInt(searchValue.getText());
+            Node node = search(tree.getRoot(), value);
+            System.out.println("Found: " + node.getKey());
+            System.out.println();
+            System.out.println("-----------------------");
+            System.out.println();
         }
+    }
+
+    public void leftRotate(Node x) {
+        Node y = x.getRightChild();
+        x.setRightChild(y.getLeftChild());
+        if(y.getLeftChild() != Node.Nil) {
+            y.getLeftChild().setParent(x);
+        }
+        y.setParent(x.getParent());
+        if(x.getParent() == Node.Nil) {
+            tree.setRoot(y);
+        } else if(x == x.getParent().getLeftChild()) {
+            x.getParent().setLeftChild(y);
+        } else {
+            x.getParent().setRightChild(y);
+        }
+        y.setLeftChild(x);
+        x.setParent(y);
+    }
+
+    public void rightRotate(Node x) {
+        Node y = x.getLeftChild();
+        x.setLeftChild(y.getRightChild());
+        if(y.getRightChild() != Node.Nil) {
+            y.getRightChild().setParent(x);
+        }
+        y.setParent(x.getParent());
+        if(x.getParent() == Node.Nil) {
+            tree.setRoot(y);
+        } else if(x == x.getParent().getLeftChild()) {
+            x.getParent().setLeftChild(y);
+        } else {
+            x.getParent().setRightChild(y);
+        }
+        y.setRightChild(x);
+        x.setParent(y);
     }
 
     public void insert(Node z) {
@@ -52,13 +102,20 @@ public class RedBlackTreeController {
         z.setColor(Color.RED);
     }
 
+    public Node search(Node w, int key) {
+        if(w == Node.Nil || w.getKey() == key) {
+            return w;
+        }
+        return search((key < w.getKey()) ? w.getLeftChild() : w.getRightChild(), key);
+    }
+
     public void display(Node w, int indent) {
         if(w != Node.Nil) {
             display(w.getRightChild(), indent + 2);
             for(int i = 0; i < indent; i++) {
                 System.out.print(" ");
             }
-            System.out.println(w.getKey());
+            System.out.println(w.getKey() + " " + w.getColor().toString());
             display(w.getLeftChild(), indent + 2);
         }
     }
