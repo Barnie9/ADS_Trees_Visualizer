@@ -27,7 +27,7 @@ public class RedBlackTreeController {
             display(tree.getRoot(), 1);
             insertValue.setText("");
             System.out.println();
-            System.out.println("________________________________________");
+            System.out.println("-----------------------");
             System.out.println();
         }
     }
