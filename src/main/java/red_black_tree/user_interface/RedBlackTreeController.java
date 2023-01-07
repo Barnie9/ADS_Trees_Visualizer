@@ -100,25 +100,9 @@ public class RedBlackTreeController {
         z.setLeftChild(Node.Nil);
         z.setRightChild(Node.Nil);
         z.setColor(Color.RED);
+        insertFixup(z);
     }
 
-    public Node search(Node w, int key) {
-        if(w == Node.Nil || w.getKey() == key) {
-            return w;
-        }
-        return search((key < w.getKey()) ? w.getLeftChild() : w.getRightChild(), key);
-    }
-
-    public void display(Node w, int indent) {
-        if(w != Node.Nil) {
-            display(w.getRightChild(), indent + 2);
-            for(int i = 0; i < indent; i++) {
-                System.out.print(" ");
-            }
-            System.out.println(w.getKey() + " " + w.getColor().toString());
-            display(w.getLeftChild(), indent + 2);
-        }
-    }
     public void insertFixup(Node z) {
         while(z.getParent().getColor() == Color.RED) {
             if(z.getParent() == z.getParent().getParent().getLeftChild()) {
@@ -151,10 +135,28 @@ public class RedBlackTreeController {
                     }
                     z.getParent().setColor(Color.BLACK);
                     z.getParent().getParent().setColor(Color.RED);
-                   leftRotate(z.getParent().getParent());
+                    leftRotate(z.getParent().getParent());
                 }
             }
-            tree.getRoot().setColor(Color.BLACK);
+        }
+        tree.getRoot().setColor(Color.BLACK);
+    }
+
+    public Node search(Node w, int key) {
+        if(w == Node.Nil || w.getKey() == key) {
+            return w;
+        }
+        return search((key < w.getKey()) ? w.getLeftChild() : w.getRightChild(), key);
+    }
+
+    public void display(Node w, int indent) {
+        if(w != Node.Nil) {
+            display(w.getRightChild(), indent + 2);
+            for(int i = 0; i < indent; i++) {
+                System.out.print(" ");
+            }
+            System.out.println(w.getKey() + " " + w.getColor().toString());
+            display(w.getLeftChild(), indent + 2);
         }
     }
 }
