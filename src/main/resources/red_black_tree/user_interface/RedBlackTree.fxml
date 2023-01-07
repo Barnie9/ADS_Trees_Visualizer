@@ -9,7 +9,7 @@
    <children>
       <AnchorPane fx:id="header" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1400.0" styleClass="antet" stylesheets="@design.css">
          <children>
-            <TextField fx:id="insertValue" alignment="CENTER" layoutX="170.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Value to be inserted" styleClass="user-menu-button" stylesheets="@design.css">
+            <TextField fx:id="insertValue" alignment="CENTER" focusTraversable="false" layoutX="170.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Value to be inserted" styleClass="user-menu-button" stylesheets="@design.css">
                <font>
                   <Font size="16.0" />
                </font>
