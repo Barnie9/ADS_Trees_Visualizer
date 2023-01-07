@@ -16,7 +16,6 @@ public class RedBlackTreeMain extends Application {
         stage.setScene(scene);
         stage.show();
         // Test
-        // Test1
     }
 
     public static void main(String[] args) {
