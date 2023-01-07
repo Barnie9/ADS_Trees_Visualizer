@@ -38,12 +38,25 @@ public class RedBlackTreeController {
             insert(node);
             display(tree.getRoot(), 1);
             insertValue.setText("");
+
+            System.out.println();
+            System.out.println("-----------------------");
+            System.out.println();
+        } else if(event.getSource() == deleteButton) {
+            int value = Integer.parseInt(deleteValue.getText());
+            Node node = search(tree.getRoot(), value);
+            delete(node);
+            display(tree.getRoot(), 1);
+            deleteValue.setText("");
+
             System.out.println();
             System.out.println("-----------------------");
             System.out.println();
         } else if(event.getSource() == searchButton) {
             int value = Integer.parseInt(searchValue.getText());
             Node node = search(tree.getRoot(), value);
+            searchValue.setText("");
+
             System.out.println("Found: " + node.getKey());
             System.out.println();
             System.out.println("-----------------------");
@@ -191,6 +204,27 @@ public class RedBlackTreeController {
             }
         }
         tree.getRoot().setColor(Color.BLACK);
+    }
+
+    public void delete(Node z) {
+        Node y = (z.getLeftChild() == Node.Nil || z.getRightChild() == Node.Nil) ? z : successor(z);
+        Node x = (y.getLeftChild() != Node.Nil) ? y.getLeftChild() : y.getRightChild();
+        x.setParent(y.getParent());
+        if(y.getParent() == Node.Nil) {
+            tree.setRoot(x);
+        } else {
+            if(y == y.getParent().getLeftChild()) {
+                y.getParent().setLeftChild(x);
+            } else {
+                y.getParent().setRightChild(x);
+            }
+        }
+        if(y != z) {
+            z.setKey(y.getKey());
+        }
+        if(y.getColor() == Color.BLACK) {
+            deleteFixup(x);
+        }
     }
 
     public Node search(Node w, int key) {
