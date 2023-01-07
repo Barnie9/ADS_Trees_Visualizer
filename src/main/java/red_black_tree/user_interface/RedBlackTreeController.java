@@ -58,7 +58,7 @@ public class RedBlackTreeController {
             for(int i = 0; i < indent; i++) {
                 System.out.print(" ");
             }
-            System.out.println(w.getKey());
+            System.out.println(w.getKey() + " " + w.getColor().toString());
             display(w.getLeftChild(), indent + 2);
         }
     }
