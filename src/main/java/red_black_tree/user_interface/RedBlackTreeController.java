@@ -86,6 +86,23 @@ public class RedBlackTreeController {
         y.setRightChild(x);
         x.setParent(y);
     }
+    
+    public Node maximum(Node w) {
+        Node x = w;
+        while(x.getRightChild() != Node.Nil) {
+            x = x.getRightChild();
+        }
+        return x;
+    }
+
+    public Node minimum(Node w) {
+        Node x = w;
+        while(x.getLeftChild() != Node.Nil) {
+            x = x.getLeftChild();
+        }
+        return x;
+    }
+    
     Node successor(Node w) {
         if(w == Node.Nil) {
             return w;
@@ -115,6 +132,7 @@ public class RedBlackTreeController {
         }
         return y;
     }
+
     public void insert(Node z) {
         Node y = Node.Nil;
         Node x = tree.getRoot();
