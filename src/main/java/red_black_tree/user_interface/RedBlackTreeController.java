@@ -69,7 +69,9 @@ public class RedBlackTreeController {
             Node node = new Node(value);
             insert(node);
 
-            createStep(3, 7);
+            System.out.println(depth(tree.getRoot()));
+            System.out.println(sumPower(depth(tree.getRoot())));
+            createStep(depth(tree.getRoot()), sumPower(depth(tree.getRoot())));
 
             display(tree.getRoot(), 1);
             insertValue.setText("");
@@ -172,6 +174,7 @@ public class RedBlackTreeController {
         scrollPane.setPrefHeight(600);
         scrollPane.setLayoutX(0);
         scrollPane.setLayoutY(0);
+        scrollPane.setPannable(true);
         return scrollPane;
     }
 
@@ -482,6 +485,24 @@ public class RedBlackTreeController {
             }
         }
         x.setColor(Color.BLACK);
+    }
+
+    public int depth(Node node) {
+        if(node == Node.Nil) {
+            return 0;
+        } else {
+            int lDepth = depth(node.getLeftChild());
+            int rDepth = depth(node.getRightChild());
+            return (lDepth < rDepth ? rDepth : lDepth) + 1;
+        }
+    }
+
+    public int sumPower(int pow) {
+        int sum = 0;
+        for(int i = 0; i < pow; i++) {
+            sum += Math.pow(2, i);
+        }
+        return sum;
     }
 
     public Node search(Node w, int key) {
