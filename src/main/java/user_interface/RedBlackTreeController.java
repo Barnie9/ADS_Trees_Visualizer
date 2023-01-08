@@ -16,7 +16,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import red_black_tree.classes.Color;
-import red_black_tree.classes.Node;
+import red_black_tree.classes.RBNode;
 import red_black_tree.classes.RBTree;
 
 import java.util.ArrayList;
@@ -65,10 +65,8 @@ public class RedBlackTreeController {
             restoreSteps();
 
             int value = Integer.parseInt(insertValue.getText());
-            Node node = new Node(value);
-            insert(node);
-
-            createStep(Node.Nil);
+            RBNode RBNode = new RBNode(value);
+            insert(RBNode);
 
             // System.out.println(depth(tree.getRoot()));
             // System.out.println(sumPower(depth(tree.getRoot())));
@@ -77,8 +75,8 @@ public class RedBlackTreeController {
             insertValue.setText("");
         } else if(event.getSource() == deleteButton) {
             int value = Integer.parseInt(deleteValue.getText());
-            Node node = search(tree.getRoot(), value);
-            delete(node);
+            RBNode RBNode = search(tree.getRoot(), value);
+            delete(RBNode);
 
             generateLevels(tree.getRoot(), 1);
 
@@ -86,10 +84,10 @@ public class RedBlackTreeController {
             deleteValue.setText("");
         } else if(event.getSource() == searchButton) {
             int value = Integer.parseInt(searchValue.getText());
-            Node node = search(tree.getRoot(), value);
+            RBNode RBNode = search(tree.getRoot(), value);
             searchValue.setText("");
 
-            // System.out.println("Found: " + node.getKey());
+            // System.out.println("Found: " + RBNode.getKey());
         } else if(event.getSource() == prevStepButton) {
             if(currentStep > 0) {
                 currentStep--;
@@ -176,7 +174,7 @@ public class RedBlackTreeController {
         return scrollPane;
     }
 
-    public void createStep(Node highlight) {
+    public void createStep(RBNode... highlights) {
         generateLevels(tree.getRoot(), 1);
 
         int rows = depth(tree.getRoot());
@@ -190,7 +188,7 @@ public class RedBlackTreeController {
 
         // gridPane.setGridLinesVisible(true);
 
-        generateGrid(anchorPane, gridPane, tree.getRoot(), 0, columns - 1, highlight);
+        generateGrid(anchorPane, gridPane, tree.getRoot(), 0, columns - 1, highlights);
         anchorPane.getChildren().add(gridPane);
         scrollPane.setContent(anchorPane);
         content.getChildren().add(scrollPane);
@@ -199,14 +197,14 @@ public class RedBlackTreeController {
         currentStep = steps.size() - 1;
     }
 
-    public void generateGrid(AnchorPane pane, GridPane gridPane, Node node, int left, int right, Node highlight) {
+    public void generateGrid(AnchorPane pane, GridPane gridPane, RBNode RBNode, int left, int right, RBNode... highlights) {
         Circle circle = new Circle();
         circle.setRadius(20);
         circle.setCenterX(30);
         circle.setCenterY(30);
         circle.setStrokeWidth(2);
         circle.setStrokeType(StrokeType.INSIDE);
-        if(node.getColor() == Color.BLACK) {
+        if(RBNode.getColor() == Color.BLACK) {
             circle.setStroke(javafx.scene.paint.Color.BLACK);
             circle.setFill(javafx.scene.paint.Color.GREY);
         } else {
@@ -214,7 +212,7 @@ public class RedBlackTreeController {
             circle.setFill(javafx.scene.paint.Color.RED);
         }
 
-        Label label = new Label(node.getKey() + "");
+        Label label = new Label(RBNode.getKey() + "");
         label.setTextFill(javafx.scene.paint.Color.WHITE);
         label.setPrefHeight(40);
         label.setPrefWidth(40);
@@ -228,28 +226,30 @@ public class RedBlackTreeController {
         anchorPane.setPrefWidth(60);
         anchorPane.getChildren().addAll(circle, label);
 
-        if(node == highlight) {
-            Circle highlighter = new Circle();
-            highlighter.setRadius(25);
-            // highlighter.setFill(javafx.scene.paint.Color.GREEN);
-            Shadow shadow = new Shadow();
-            shadow.setBlurType(BlurType.GAUSSIAN);
-            shadow.setColor(javafx.scene.paint.Color.DARKGREEN);
-            shadow.setHeight(20);
-            shadow.setRadius(12);
-            shadow.setWidth(20);
-            highlighter.setEffect(shadow);
-            highlighter.setCenterX(30);
-            highlighter.setCenterY(30);
-            anchorPane.getChildren().add(0, highlighter);
+        for(RBNode highlight : highlights) {
+            if (RBNode == highlight) {
+                Circle highlighter = new Circle();
+                highlighter.setRadius(25);
+                // highlighter.setFill(javafx.scene.paint.Color.GREEN);
+                Shadow shadow = new Shadow();
+                shadow.setBlurType(BlurType.GAUSSIAN);
+                shadow.setColor(javafx.scene.paint.Color.DARKGREEN);
+                shadow.setHeight(20);
+                shadow.setRadius(12);
+                shadow.setWidth(20);
+                highlighter.setEffect(shadow);
+                highlighter.setCenterX(30);
+                highlighter.setCenterY(30);
+                anchorPane.getChildren().add(0, highlighter);
+            }
         }
 
         int column = left + ((right - left) / 2);
-        int row = node.getLevel() - 1;
+        int row = RBNode.getLevel() - 1;
 
         gridPane.add(anchorPane, column, row);
 
-        if(node.getLeftChild() != Node.Nil) {
+        if(RBNode.getLeftChild() != RBNode.Nil) {
             Line line = new Line();
             line.setStroke(javafx.scene.paint.Color.BLACK);
             line.setStrokeWidth(2);
@@ -261,9 +261,9 @@ public class RedBlackTreeController {
             line.setEndY(-60);
             pane.getChildren().add(line);
 
-            generateGrid(pane, gridPane, node.getLeftChild(), left, column - 1, highlight);
+            generateGrid(pane, gridPane, RBNode.getLeftChild(), left, column - 1, highlights);
         }
-        if(node.getRightChild() != Node.Nil) {
+        if(RBNode.getRightChild() != RBNode.Nil) {
             Line line = new Line();
             line.setStroke(javafx.scene.paint.Color.BLACK);
             line.setStrokeWidth(2);
@@ -275,26 +275,27 @@ public class RedBlackTreeController {
             line.setEndY(-60);
             pane.getChildren().add(line);
 
-            generateGrid(pane, gridPane, node.getRightChild(), column + 1, right, highlight);
+            generateGrid(pane, gridPane, RBNode.getRightChild(), column + 1, right, highlights);
         }
     }
 
-    public void generateLevels(Node x, int level) {
-        if(x != Node.Nil) {
+    public void generateLevels(RBNode x, int level) {
+        if(x != RBNode.Nil) {
             generateLevels(x.getLeftChild(), level + 1);
             generateLevels(x.getRightChild(), level + 1);
             x.setLevel(level);
         }
     }
 
-    public void leftRotate(Node x) {
-        Node y = x.getRightChild();
+    public void leftRotate(RBNode x) {
+        RBNode y = x.getRightChild();
+        createStep(x, y);
         x.setRightChild(y.getLeftChild());
-        if(y.getLeftChild() != Node.Nil) {
+        if(y.getLeftChild() != RBNode.Nil) {
             y.getLeftChild().setParent(x);
         }
         y.setParent(x.getParent());
-        if(x.getParent() == Node.Nil) {
+        if(x.getParent() == RBNode.Nil) {
             tree.setRoot(y);
         } else if(x == x.getParent().getLeftChild()) {
             x.getParent().setLeftChild(y);
@@ -303,16 +304,19 @@ public class RedBlackTreeController {
         }
         y.setLeftChild(x);
         x.setParent(y);
+        createStep(x, y);
+        createStep();
     }
 
-    public void rightRotate(Node x) {
-        Node y = x.getLeftChild();
+    public void rightRotate(RBNode x) {
+        RBNode y = x.getLeftChild();
+        createStep(x, y);
         x.setLeftChild(y.getRightChild());
-        if(y.getRightChild() != Node.Nil) {
+        if(y.getRightChild() != RBNode.Nil) {
             y.getRightChild().setParent(x);
         }
         y.setParent(x.getParent());
-        if(x.getParent() == Node.Nil) {
+        if(x.getParent() == RBNode.Nil) {
             tree.setRoot(y);
         } else if(x == x.getParent().getLeftChild()) {
             x.getParent().setLeftChild(y);
@@ -321,120 +325,141 @@ public class RedBlackTreeController {
         }
         y.setRightChild(x);
         x.setParent(y);
+        createStep(x, y);
+        createStep();
     }
     
-    public Node maximum(Node w) {
-        Node x = w;
-        while(x.getRightChild() != Node.Nil) {
+    public RBNode maximum(RBNode w) {
+        RBNode x = w;
+        while(x.getRightChild() != RBNode.Nil) {
             x = x.getRightChild();
         }
         return x;
     }
 
-    public Node minimum(Node w) {
-        Node x = w;
-        while(x.getLeftChild() != Node.Nil) {
+    public RBNode minimum(RBNode w) {
+        RBNode x = w;
+        while(x.getLeftChild() != RBNode.Nil) {
             x = x.getLeftChild();
         }
         return x;
     }
     
-    Node successor(Node w) {
-        if(w == Node.Nil) {
+    RBNode successor(RBNode w) {
+        if(w == RBNode.Nil) {
             return w;
         }
-        Node x = w;
-        if(x.getRightChild() != Node.Nil)
+        RBNode x = w;
+        if(x.getRightChild() != RBNode.Nil)
             return minimum(x.getRightChild());
-        Node y = x.getParent();
-        while (y != Node.Nil && x == y.getRightChild()) {
+        RBNode y = x.getParent();
+        while (y != RBNode.Nil && x == y.getRightChild()) {
             x = y;
             y = x.getParent();
         }
         return y;
     }
 
-    Node predecessor(Node w) {
-        if(w == Node.Nil) {
+    RBNode predecessor(RBNode w) {
+        if(w == RBNode.Nil) {
             return w;
         }
-        Node x = w;
-        if(x.getLeftChild() != Node.Nil)
+        RBNode x = w;
+        if(x.getLeftChild() != RBNode.Nil)
             return maximum(x.getLeftChild());
-        Node y = x.getParent();
-        while (y != Node.Nil && x == y.getLeftChild()) {
+        RBNode y = x.getParent();
+        while (y != RBNode.Nil && x == y.getLeftChild()) {
             x = y;
             y = x.getParent();
         }
         return y;
     }
 
-    public void insert(Node z) {
-        Node y = Node.Nil;
-        Node x = tree.getRoot();
-        while(x != Node.Nil) {
+    public void insert(RBNode z) {
+        RBNode y = RBNode.Nil;
+        RBNode x = tree.getRoot();
+        while(x != RBNode.Nil) {
             y = x;
             createStep(y);
             x = (z.getKey() < x.getKey()) ? x.getLeftChild() : x.getRightChild();
         }
         z.setParent(y);
-        if(y == Node.Nil) {
+        if(y == RBNode.Nil) {
             tree.setRoot(z);
         } else if(z.getKey() < y.getKey()) {
             y.setLeftChild(z);
         } else {
             y.setRightChild(z);
         }
-        z.setLeftChild(Node.Nil);
-        z.setRightChild(Node.Nil);
+        z.setLeftChild(RBNode.Nil);
+        z.setRightChild(RBNode.Nil);
         z.setColor(Color.RED);
+        createStep(z);
+        createStep();
         insertFixup(z);
     }
 
-    public void insertFixup(Node z) {
+    public void insertFixup(RBNode z) {
         while(z.getParent().getColor() == Color.RED) {
             if(z.getParent() == z.getParent().getParent().getLeftChild()) {
-                Node y = z.getParent().getParent().getRightChild();
+                RBNode y = z.getParent().getParent().getRightChild();
                 if (y.getColor() == Color.RED) {
+                    createStep(z.getParent(), y, z.getParent().getParent());
                     z.getParent().setColor(Color.BLACK);
                     y.setColor(Color.BLACK);
                     z.getParent().getParent().setColor(Color.RED);
+                    createStep(z.getParent(), y, z.getParent().getParent());
+                    createStep();
                     z = z.getParent().getParent();
                 } else {
                     if (z == z.getParent().getRightChild()) {
                         z = z.getParent();
                         leftRotate(z);
                     }
+                    createStep(z.getParent(), z.getParent().getParent());
                     z.getParent().setColor(Color.BLACK);
                     z.getParent().getParent().setColor(Color.RED);
+                    createStep(z.getParent(), z.getParent().getParent());
+                    createStep();
                     rightRotate(z.getParent().getParent());
                 }
             } else {
-                Node y = z.getParent().getParent().getLeftChild();
+                RBNode y = z.getParent().getParent().getLeftChild();
                 if(y.getColor() == Color.RED) {
+                    createStep(z.getParent(), y, z.getParent().getParent());
                     z.getParent().setColor(Color.BLACK);
                     y.setColor(Color.BLACK);
                     z.getParent().getParent().setColor(Color.RED);
+                    createStep(z.getParent(), y, z.getParent().getParent());
+                    createStep();
                     z = z.getParent().getParent();
                 } else {
                     if (z == z.getParent().getLeftChild()) {
                         z = z.getParent();
                         rightRotate(z);
                     }
+                    createStep(z.getParent(), z.getParent().getParent());
                     z.getParent().setColor(Color.BLACK);
                     z.getParent().getParent().setColor(Color.RED);
+                    createStep(z.getParent(), z.getParent().getParent());
+                    createStep();
                     leftRotate(z.getParent().getParent());
                 }
             }
         }
-        tree.getRoot().setColor(Color.BLACK);
+        if(tree.getRoot().getColor() == Color.RED) {
+            createStep(tree.getRoot());
+            tree.getRoot().setColor(Color.BLACK);
+            createStep(tree.getRoot());
+            createStep();
+        }
     }
 
-    public void delete(Node z) {
-        Node y = (z.getLeftChild() == Node.Nil || z.getRightChild() == Node.Nil) ? z : predecessor(z);
-        Node x = (y.getLeftChild() != Node.Nil) ? y.getLeftChild() : y.getRightChild();
+    public void delete(RBNode z) {
+        RBNode y = (z.getLeftChild() == RBNode.Nil || z.getRightChild() == RBNode.Nil) ? z : predecessor(z);
+        RBNode x = (y.getLeftChild() != RBNode.Nil) ? y.getLeftChild() : y.getRightChild();
         x.setParent(y.getParent());
-        if(y.getParent() == Node.Nil) {
+        if(y.getParent() == RBNode.Nil) {
             tree.setRoot(x);
         } else {
             if(y == y.getParent().getLeftChild()) {
@@ -451,8 +476,8 @@ public class RedBlackTreeController {
         }
     }
 
-    public void deleteFixup(Node x) {
-        Node w;
+    public void deleteFixup(RBNode x) {
+        RBNode w;
         while(x != tree.getRoot() && x.getColor() == Color.BLACK) {
             if(x == x.getParent().getLeftChild()) {
                 w = x.getParent().getRightChild();
@@ -507,12 +532,12 @@ public class RedBlackTreeController {
         x.setColor(Color.BLACK);
     }
 
-    public int depth(Node node) {
-        if(node == Node.Nil) {
+    public int depth(RBNode RBNode) {
+        if(RBNode == RBNode.Nil) {
             return 0;
         } else {
-            int lDepth = depth(node.getLeftChild());
-            int rDepth = depth(node.getRightChild());
+            int lDepth = depth(RBNode.getLeftChild());
+            int rDepth = depth(RBNode.getRightChild());
             return (lDepth < rDepth ? rDepth : lDepth) + 1;
         }
     }
@@ -525,15 +550,15 @@ public class RedBlackTreeController {
         return sum;
     }
 
-    public Node search(Node w, int key) {
-        if(w == Node.Nil || w.getKey() == key) {
+    public RBNode search(RBNode w, int key) {
+        if(w == RBNode.Nil || w.getKey() == key) {
             return w;
         }
         return search((key < w.getKey()) ? w.getLeftChild() : w.getRightChild(), key);
     }
 
-    public void display(Node w, int indent) {
-        if(w != Node.Nil) {
+    public void display(RBNode w, int indent) {
+        if(w != RBNode.Nil) {
             display(w.getRightChild(), indent + 5);
             for(int i = 0; i < indent; i++) {
                 System.out.print(" ");
