@@ -10,9 +10,10 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("RedBlackTree.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Index.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Red-Black Tree");
+        //stage.setTitle("Red-Black Tree");
+        stage.setTitle("Index");
         stage.setScene(scene);
         stage.show();
     }

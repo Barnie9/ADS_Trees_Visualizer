@@ -2,7 +2,10 @@ package user_interface;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -15,12 +18,15 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import red_black_tree.classes.Color;
 import red_black_tree.classes.RBNode;
 import red_black_tree.classes.RBTree;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RedBlackTreeController {
     private RBTree tree = new RBTree();
@@ -58,7 +64,22 @@ public class RedBlackTreeController {
     private Button nextStepButton;
     @FXML
     private Button lastStepButton;
+    @FXML
+    private AnchorPane rbFxml;
 
+    public void back() throws IOException {
+        try {
+            rbFxml.getScene().getWindow().hide();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Index.fxml")));
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
     @FXML
     void buttonPressed(ActionEvent event) {
         if(event.getSource() == insertButton) {
