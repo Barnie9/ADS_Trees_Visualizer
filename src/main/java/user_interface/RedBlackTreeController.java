@@ -65,8 +65,8 @@ public class RedBlackTreeController {
             restoreSteps();
 
             int value = Integer.parseInt(insertValue.getText());
-            RBNode RBNode = new RBNode(value);
-            insert(RBNode);
+            RBNode rbNode = new RBNode(value);
+            insert(rbNode);
 
             // System.out.println(depth(tree.getRoot()));
             // System.out.println(sumPower(depth(tree.getRoot())));
@@ -74,17 +74,22 @@ public class RedBlackTreeController {
             // display(tree.getRoot(), 1);
             insertValue.setText("");
         } else if(event.getSource() == deleteButton) {
-            int value = Integer.parseInt(deleteValue.getText());
-            RBNode RBNode = search(tree.getRoot(), value);
-            delete(RBNode);
+            restoreSteps();
 
-            generateLevels(tree.getRoot(), 1);
+            int value = Integer.parseInt(deleteValue.getText());
+            RBNode rbNode = search(tree.getRoot(), value);
+
+            if(rbNode != RBNode.Nil) {
+                delete(rbNode);
+            }
 
             // display(tree.getRoot(), 1);
             deleteValue.setText("");
         } else if(event.getSource() == searchButton) {
+            restoreSteps();
+
             int value = Integer.parseInt(searchValue.getText());
-            RBNode RBNode = search(tree.getRoot(), value);
+            RBNode rbNode = search(tree.getRoot(), value);
             searchValue.setText("");
 
             // System.out.println("Found: " + RBNode.getKey());
@@ -129,10 +134,9 @@ public class RedBlackTreeController {
 
     public void restoreSteps() {
         if(steps.size() != 0) {
-            ScrollPane scrollPane = steps.get(steps.size() - 1);
             steps = new ArrayList<>();
-            steps.add(scrollPane);
-            currentStep = 0;
+            currentStep = -1;
+            createStep();
         }
     }
 
@@ -240,7 +244,9 @@ public class RedBlackTreeController {
                 highlighter.setEffect(shadow);
                 highlighter.setCenterX(30);
                 highlighter.setCenterY(30);
-                anchorPane.getChildren().add(0, highlighter);
+                if(anchorPane.getChildren().size() == 2) {
+                    anchorPane.getChildren().add(0, highlighter);
+                }
             }
         }
 
@@ -331,9 +337,12 @@ public class RedBlackTreeController {
     
     public RBNode maximum(RBNode w) {
         RBNode x = w;
+        createStep(x);
         while(x.getRightChild() != RBNode.Nil) {
+            createStep(x.getRightChild());
             x = x.getRightChild();
         }
+        createStep();
         return x;
     }
 
@@ -365,13 +374,17 @@ public class RedBlackTreeController {
             return w;
         }
         RBNode x = w;
-        if(x.getLeftChild() != RBNode.Nil)
+        if(x.getLeftChild() != RBNode.Nil) {
             return maximum(x.getLeftChild());
+        }
         RBNode y = x.getParent();
+        createStep(y);
         while (y != RBNode.Nil && x == y.getLeftChild()) {
             x = y;
             y = x.getParent();
+            createStep(y);
         }
+        createStep();
         return y;
     }
 
@@ -458,6 +471,7 @@ public class RedBlackTreeController {
     public void delete(RBNode z) {
         RBNode y = (z.getLeftChild() == RBNode.Nil || z.getRightChild() == RBNode.Nil) ? z : predecessor(z);
         RBNode x = (y.getLeftChild() != RBNode.Nil) ? y.getLeftChild() : y.getRightChild();
+        createStep(x, y, z);
         x.setParent(y.getParent());
         if(y.getParent() == RBNode.Nil) {
             tree.setRoot(x);
@@ -471,6 +485,8 @@ public class RedBlackTreeController {
         if(y != z) {
             z.setKey(y.getKey());
         }
+        createStep(x, y, z);
+        createStep();
         if(y.getColor() == Color.BLACK) {
             deleteFixup(x);
         }
@@ -482,54 +498,83 @@ public class RedBlackTreeController {
             if(x == x.getParent().getLeftChild()) {
                 w = x.getParent().getRightChild();
                 if(w.getColor() == Color.RED) {
+                    createStep(w, x.getParent());
                     w.setColor(Color.BLACK);
                     x.getParent().setColor(Color.RED);
+                    createStep(w, x.getParent());
+                    createStep();
                     leftRotate(x.getParent());
                     w = x.getParent().getRightChild();
                 }
                 if(w.getLeftChild().getColor() == Color.BLACK && w.getRightChild().getColor() == Color.BLACK) {
+                    createStep(w);
                     w.setColor(Color.RED);
+                    createStep(w);
+                    createStep();
                     x = x.getParent();
                 } else {
                     if(w.getRightChild().getColor() == Color.BLACK) {
+                        createStep(w.getRightChild(), w);
                         w.getRightChild().setColor(Color.BLACK);
                         w.setColor(Color.RED);
+                        createStep(w.getRightChild(), w);
+                        createStep();
                         rightRotate(w);
                         w = x.getParent().getRightChild();
                     }
+                    createStep(w, x.getParent(), w.getRightChild());
                     w.setColor(x.getParent().getColor());
                     x.getParent().setColor(Color.BLACK);
                     w.getRightChild().setColor(Color.BLACK);
+                    createStep(w, x.getParent(), w.getRightChild());
+                    createStep();
                     leftRotate(x.getParent());
                     x = tree.getRoot();
                 }
             } else {
                 w = x.getParent().getLeftChild();
                 if(w.getColor() == Color.RED) {
+                    createStep(w, x.getParent());
                     w.setColor(Color.BLACK);
                     x.getParent().setColor(Color.RED);
+                    createStep(w, x.getParent());
+                    createStep();
                     rightRotate(x.getParent());
                     w = x.getParent().getLeftChild();
                 }
                 if(w.getLeftChild().getColor() == Color.BLACK && w.getRightChild().getColor() == Color.BLACK) {
+                    createStep(w);
                     w.setColor(Color.RED);
+                    createStep(w);
+                    createStep();
                     x = x.getParent();
                 } else {
                     if(w.getLeftChild().getColor() == Color.BLACK) {
+                        createStep(w.getRightChild(), w);
                         w.getRightChild().setColor(Color.BLACK);
                         w.setColor(Color.RED);
+                        createStep(w.getRightChild(), w);
+                        createStep();
                         leftRotate(w);
                         w = x.getParent().getLeftChild();
                     }
+                    createStep(w, x.getParent(), w.getLeftChild());
                     w.setColor(x.getParent().getColor());
                     x.getParent().setColor(Color.BLACK);
                     w.getLeftChild().setColor(Color.BLACK);
+                    createStep(w, x.getParent(), w.getLeftChild());
+                    createStep();
                     rightRotate(x.getParent());
                     x = tree.getRoot();
                 }
             }
         }
-        x.setColor(Color.BLACK);
+        if(x.getColor() == Color.RED) {
+            createStep(x);
+            x.setColor(Color.BLACK);
+            createStep(x);
+            createStep();
+        }
     }
 
     public int depth(RBNode RBNode) {
@@ -551,6 +596,7 @@ public class RedBlackTreeController {
     }
 
     public RBNode search(RBNode w, int key) {
+        createStep(w);
         if(w == RBNode.Nil || w.getKey() == key) {
             return w;
         }
