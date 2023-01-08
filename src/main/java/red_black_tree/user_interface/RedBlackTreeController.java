@@ -203,16 +203,18 @@ public class RedBlackTreeController {
         circle.setRadius(20);
         circle.setCenterX(30);
         circle.setCenterY(30);
-        circle.setFill(javafx.scene.paint.Color.WHITE);
         circle.setStrokeWidth(2);
         circle.setStrokeType(StrokeType.INSIDE);
         if(node.getColor() == Color.BLACK) {
             circle.setStroke(javafx.scene.paint.Color.BLACK);
+            circle.setFill(javafx.scene.paint.Color.GREY);
         } else {
-            circle.setStroke(javafx.scene.paint.Color.RED);
+            circle.setStroke(javafx.scene.paint.Color.DARKRED);
+            circle.setFill(javafx.scene.paint.Color.RED);
         }
 
         Label label = new Label(node.getKey() + "");
+        label.setTextFill(javafx.scene.paint.Color.WHITE);
         label.setPrefHeight(40);
         label.setPrefWidth(40);
         label.setLayoutX(10);
