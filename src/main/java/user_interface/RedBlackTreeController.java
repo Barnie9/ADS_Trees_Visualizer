@@ -1,21 +1,18 @@
-package red_black_tree.user_interface;
+package user_interface;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.Shadow;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.LineTo;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import red_black_tree.classes.Color;
@@ -65,8 +62,7 @@ public class RedBlackTreeController {
     @FXML
     void buttonPressed(ActionEvent event) {
         if(event.getSource() == insertButton) {
-            steps = new ArrayList<>();
-            currentStep = -1;
+            restoreSteps();
 
             int value = Integer.parseInt(insertValue.getText());
             Node node = new Node(value);
@@ -130,6 +126,15 @@ public class RedBlackTreeController {
                 }
                 steps.get(currentStep).setVisible(true);
             }
+        }
+    }
+
+    public void restoreSteps() {
+        if(steps.size() != 0) {
+            ScrollPane scrollPane = steps.get(steps.size() - 1);
+            steps = new ArrayList<>();
+            steps.add(scrollPane);
+            currentStep = 0;
         }
     }
 
@@ -225,8 +230,15 @@ public class RedBlackTreeController {
 
         if(node == highlight) {
             Circle highlighter = new Circle();
-            highlighter.setRadius(23);
-            highlighter.setFill(javafx.scene.paint.Color.LIGHTGREEN);
+            highlighter.setRadius(25);
+            // highlighter.setFill(javafx.scene.paint.Color.GREEN);
+            Shadow shadow = new Shadow();
+            shadow.setBlurType(BlurType.GAUSSIAN);
+            shadow.setColor(javafx.scene.paint.Color.DARKGREEN);
+            shadow.setHeight(20);
+            shadow.setRadius(12);
+            shadow.setWidth(20);
+            highlighter.setEffect(shadow);
             highlighter.setCenterX(30);
             highlighter.setCenterY(30);
             anchorPane.getChildren().add(0, highlighter);
