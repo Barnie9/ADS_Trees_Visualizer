@@ -94,21 +94,25 @@ public class BinarySearchTreeController {
             // display(tree.getRoot(), 1);
             insertValue.setText("");
         } else if(event.getSource() == deleteButton) {
+            restoreSteps();
+
             int value = Integer.parseInt(deleteValue.getText());
             Node Node = search(tree.getRoot(), value);
-            delete(Node);
 
-            generateLevels(tree.getRoot(), 1);
+            if(Node != Node.Nil) {
+                delete(Node);
+            }
 
             // display(tree.getRoot(), 1);
             deleteValue.setText("");
         } else if(event.getSource() == searchButton) {
+            restoreSteps();
+
             int value = Integer.parseInt(searchValue.getText());
             Node Node = search(tree.getRoot(), value);
             searchValue.setText("");
 
-            // System.out.println("Found: " +
-            //Node.getKey());
+            // System.out.println("Found: " + Node.getKey());
         } else if(event.getSource() == prevStepButton) {
             if(currentStep > 0) {
                 currentStep--;
@@ -150,10 +154,9 @@ public class BinarySearchTreeController {
 
     public void restoreSteps() {
         if(steps.size() != 0) {
-            ScrollPane scrollPane = steps.get(steps.size() - 1);
             steps = new ArrayList<>();
-            steps.add(scrollPane);
-            currentStep = 0;
+            currentStep = -1;
+            createStep();
         }
     }
 
@@ -256,7 +259,10 @@ public class BinarySearchTreeController {
                 highlighter.setEffect(shadow);
                 highlighter.setCenterX(30);
                 highlighter.setCenterY(30);
-                anchorPane.getChildren().add(0, highlighter);
+                //anchorPane.getChildren().add(0, highlighter);
+                if(anchorPane.getChildren().size() == 2) {
+                    anchorPane.getChildren().add(0, highlighter);
+                }
             }
         }
 
@@ -305,9 +311,11 @@ public class BinarySearchTreeController {
 
     public Node maximum(Node w) {
         Node x = w;
+        createStep(x);
         while(x.getRightChild() != Node.Nil) {
             x = x.getRightChild();
         }
+        createStep(x);
         return x;
     }
 
@@ -342,10 +350,13 @@ public class BinarySearchTreeController {
         if(x.getLeftChild() != Node.Nil)
             return maximum(x.getLeftChild());
         Node y = x.getParent();
+        createStep(x);
         while (y != Node.Nil && x == y.getLeftChild()) {
             x = y;
             y = x.getParent();
+            createStep(y);
         }
+        createStep();
         return y;
     }
 
@@ -374,6 +385,7 @@ public class BinarySearchTreeController {
     public void delete(Node z) {
         Node y = (z.getLeftChild() == Node.Nil || z.getRightChild() == Node.Nil) ? z : predecessor(z);
         Node x = (y.getLeftChild() != Node.Nil) ? y.getLeftChild() : y.getRightChild();
+        createStep(x, y, z);
         x.setParent(y.getParent());
         if(y.getParent() == Node.Nil) {
             tree.setRoot(x);
@@ -387,6 +399,8 @@ public class BinarySearchTreeController {
         if(y != z) {
             z.setKey(y.getKey());
         }
+        createStep(x, y, z);
+        createStep();
     }
 
     public int depth(Node Node) {
@@ -408,6 +422,7 @@ public class BinarySearchTreeController {
     }
 
     public Node search(Node w, int key) {
+        createStep(w);
         if(w == Node.Nil || w.getKey() == key) {
             return w;
         }
