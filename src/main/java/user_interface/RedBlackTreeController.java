@@ -65,8 +65,8 @@ public class RedBlackTreeController {
             restoreSteps();
 
             int value = Integer.parseInt(insertValue.getText());
-            RBNode RBNode = new RBNode(value);
-            insert(RBNode);
+            RBNode rbNode = new RBNode(value);
+            insert(rbNode);
 
             // System.out.println(depth(tree.getRoot()));
             // System.out.println(sumPower(depth(tree.getRoot())));
@@ -77,12 +77,11 @@ public class RedBlackTreeController {
             restoreSteps();
 
             int value = Integer.parseInt(deleteValue.getText());
-            RBNode RBNode = search(tree.getRoot(), value);
-            // createStep();
+            RBNode rbNode = search(tree.getRoot(), value);
 
-            delete(RBNode);
-
-            generateLevels(tree.getRoot(), 1);
+            if(rbNode != RBNode.Nil) {
+                delete(rbNode);
+            }
 
             // display(tree.getRoot(), 1);
             deleteValue.setText("");
@@ -90,7 +89,7 @@ public class RedBlackTreeController {
             restoreSteps();
 
             int value = Integer.parseInt(searchValue.getText());
-            RBNode RBNode = search(tree.getRoot(), value);
+            RBNode rbNode = search(tree.getRoot(), value);
             searchValue.setText("");
 
             // System.out.println("Found: " + RBNode.getKey());
