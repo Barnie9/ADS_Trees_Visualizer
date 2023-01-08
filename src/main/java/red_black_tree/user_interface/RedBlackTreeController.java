@@ -65,20 +65,20 @@ public class RedBlackTreeController {
     @FXML
     void buttonPressed(ActionEvent event) {
         if(event.getSource() == insertButton) {
+            steps = new ArrayList<>();
+            currentStep = -1;
+
             int value = Integer.parseInt(insertValue.getText());
             Node node = new Node(value);
             insert(node);
 
-            System.out.println(depth(tree.getRoot()));
-            System.out.println(sumPower(depth(tree.getRoot())));
-            createStep(depth(tree.getRoot()), sumPower(depth(tree.getRoot())));
+            createStep(Node.Nil);
 
-            display(tree.getRoot(), 1);
+            // System.out.println(depth(tree.getRoot()));
+            // System.out.println(sumPower(depth(tree.getRoot())));
+
+            // display(tree.getRoot(), 1);
             insertValue.setText("");
-
-            System.out.println();
-            System.out.println("----------------------------------------------");
-            System.out.println();
         } else if(event.getSource() == deleteButton) {
             int value = Integer.parseInt(deleteValue.getText());
             Node node = search(tree.getRoot(), value);
@@ -86,21 +86,14 @@ public class RedBlackTreeController {
 
             generateLevels(tree.getRoot(), 1);
 
-            display(tree.getRoot(), 1);
+            // display(tree.getRoot(), 1);
             deleteValue.setText("");
-
-            System.out.println();
-            System.out.println("----------------------------------------------");
-            System.out.println();
         } else if(event.getSource() == searchButton) {
             int value = Integer.parseInt(searchValue.getText());
             Node node = search(tree.getRoot(), value);
             searchValue.setText("");
 
-            System.out.println("Found: " + node.getKey());
-            System.out.println();
-            System.out.println("----------------------------------------------");
-            System.out.println();
+            // System.out.println("Found: " + node.getKey());
         } else if(event.getSource() == prevStepButton) {
             if(currentStep > 0) {
                 currentStep--;
@@ -178,8 +171,11 @@ public class RedBlackTreeController {
         return scrollPane;
     }
 
-    public void createStep(int rows, int columns) {
+    public void createStep(Node highlight) {
         generateLevels(tree.getRoot(), 1);
+
+        int rows = depth(tree.getRoot());
+        int columns = sumPower(depth(tree.getRoot()));
 
         ScrollPane scrollPane = initializeScrollPane();
 
@@ -189,7 +185,7 @@ public class RedBlackTreeController {
 
         // gridPane.setGridLinesVisible(true);
 
-        generateGrid(anchorPane, gridPane, tree.getRoot(), 0, columns - 1);
+        generateGrid(anchorPane, gridPane, tree.getRoot(), 0, columns - 1, highlight);
         anchorPane.getChildren().add(gridPane);
         scrollPane.setContent(anchorPane);
         content.getChildren().add(scrollPane);
@@ -198,7 +194,7 @@ public class RedBlackTreeController {
         currentStep = steps.size() - 1;
     }
 
-    public void generateGrid(AnchorPane pane, GridPane gridPane, Node node, int left, int right) {
+    public void generateGrid(AnchorPane pane, GridPane gridPane, Node node, int left, int right, Node highlight) {
         Circle circle = new Circle();
         circle.setRadius(20);
         circle.setCenterX(30);
@@ -225,6 +221,15 @@ public class RedBlackTreeController {
         anchorPane.setPrefWidth(60);
         anchorPane.getChildren().addAll(circle, label);
 
+        if(node == highlight) {
+            Circle highlighter = new Circle();
+            highlighter.setRadius(23);
+            highlighter.setFill(javafx.scene.paint.Color.LIGHTGREEN);
+            highlighter.setCenterX(30);
+            highlighter.setCenterY(30);
+            anchorPane.getChildren().add(0, highlighter);
+        }
+
         int column = left + ((right - left) / 2);
         int row = node.getLevel() - 1;
 
@@ -242,7 +247,7 @@ public class RedBlackTreeController {
             line.setEndY(-60);
             pane.getChildren().add(line);
 
-            generateGrid(pane, gridPane, node.getLeftChild(), left, column - 1);
+            generateGrid(pane, gridPane, node.getLeftChild(), left, column - 1, highlight);
         }
         if(node.getRightChild() != Node.Nil) {
             Line line = new Line();
@@ -256,7 +261,7 @@ public class RedBlackTreeController {
             line.setEndY(-60);
             pane.getChildren().add(line);
 
-            generateGrid(pane, gridPane, node.getRightChild(), column + 1, right);
+            generateGrid(pane, gridPane, node.getRightChild(), column + 1, right, highlight);
         }
     }
 
@@ -355,6 +360,7 @@ public class RedBlackTreeController {
         Node x = tree.getRoot();
         while(x != Node.Nil) {
             y = x;
+            createStep(y);
             x = (z.getKey() < x.getKey()) ? x.getLeftChild() : x.getRightChild();
         }
         z.setParent(y);
