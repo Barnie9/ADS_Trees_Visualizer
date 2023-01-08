@@ -2,15 +2,33 @@ package red_black_tree.user_interface;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
 import red_black_tree.classes.Color;
 import red_black_tree.classes.Node;
 import red_black_tree.classes.RBTree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RedBlackTreeController {
     private RBTree tree = new RBTree();
+    private int currentStep = -1;
+    private List<ScrollPane> steps = new ArrayList<>();
 
     //  Insert
     @FXML
@@ -30,6 +48,20 @@ public class RedBlackTreeController {
     @FXML
     private Button searchButton;
 
+    //  Content
+    @FXML
+    private AnchorPane content;
+
+    //  Footer Buttons
+    @FXML
+    private Button firstStepButton;
+    @FXML
+    private Button prevStepButton;
+    @FXML
+    private Button nextStepButton;
+    @FXML
+    private Button lastStepButton;
+
     @FXML
     void buttonPressed(ActionEvent event) {
         if(event.getSource() == insertButton) {
@@ -37,7 +69,7 @@ public class RedBlackTreeController {
             Node node = new Node(value);
             insert(node);
 
-            generateLevels(tree.getRoot(), 1);
+            createStep(3, 7);
 
             display(tree.getRoot(), 1);
             insertValue.setText("");
@@ -67,6 +99,161 @@ public class RedBlackTreeController {
             System.out.println();
             System.out.println("----------------------------------------------");
             System.out.println();
+        } else if(event.getSource() == prevStepButton) {
+            if(currentStep > 0) {
+                currentStep--;
+                for(int i = 0; i < steps.size(); i++) {
+                    if(i != currentStep) {
+                        steps.get(i).setVisible(false);
+                    }
+                }
+                steps.get(currentStep).setVisible(true);
+            }
+        } else if(event.getSource() == nextStepButton) {
+            if(currentStep < steps.size() - 1) {
+                currentStep++;
+                for(int i = 0; i < steps.size(); i++) {
+                    if(i != currentStep) {
+                        steps.get(i).setVisible(false);
+                    }
+                }
+                steps.get(currentStep).setVisible(true);
+            }
+        } else if(event.getSource() == firstStepButton) {
+            if (currentStep != 0) {
+                currentStep = 0;
+                for(int i = 1; i < steps.size(); i++) {
+                        steps.get(i).setVisible(false);
+                }
+                steps.get(currentStep).setVisible(true);
+            }
+        } else if(event.getSource() == lastStepButton) {
+            if (currentStep != steps.size() - 1) {
+                currentStep = steps.size() - 1;
+                for(int i = 0; i < steps.size() - 1; i++) {
+                    steps.get(i).setVisible(false);
+                }
+                steps.get(currentStep).setVisible(true);
+            }
+        }
+    }
+
+    public GridPane initializeGridPane(int rows, int columns) {
+        GridPane gridPane = new GridPane();
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < columns; j++) {
+                AnchorPane anchorPane = new AnchorPane();
+                anchorPane.setPrefHeight(60);
+                anchorPane.setPrefWidth(60);
+
+                gridPane.add(anchorPane, j, i);
+            }
+        }
+        if((700 - (columns * 30)) > 0) {
+            gridPane.setLayoutX(700 - (columns * 30));
+        } else {
+            gridPane.setLayoutX(0);
+        }
+        return gridPane;
+    }
+
+    public AnchorPane initializeAnchorPane() {
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setPrefWidth(1390);
+        anchorPane.setPrefHeight(590);
+        anchorPane.setLayoutX(0);
+        anchorPane.setLayoutY(0);
+        return anchorPane;
+    }
+
+    public ScrollPane initializeScrollPane() {
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPrefWidth(1400);
+        scrollPane.setPrefHeight(600);
+        scrollPane.setLayoutX(0);
+        scrollPane.setLayoutY(0);
+        return scrollPane;
+    }
+
+    public void createStep(int rows, int columns) {
+        generateLevels(tree.getRoot(), 1);
+
+        ScrollPane scrollPane = initializeScrollPane();
+
+        AnchorPane anchorPane = initializeAnchorPane();
+
+        GridPane gridPane = initializeGridPane(rows, columns);
+
+        // gridPane.setGridLinesVisible(true);
+
+        generateGrid(anchorPane, gridPane, tree.getRoot(), 0, columns - 1);
+        anchorPane.getChildren().add(gridPane);
+        scrollPane.setContent(anchorPane);
+        content.getChildren().add(scrollPane);
+
+        steps.add(scrollPane);
+        currentStep = steps.size() - 1;
+    }
+
+    public void generateGrid(AnchorPane pane, GridPane gridPane, Node node, int left, int right) {
+        Circle circle = new Circle();
+        circle.setRadius(20);
+        circle.setCenterX(30);
+        circle.setCenterY(30);
+        circle.setFill(javafx.scene.paint.Color.WHITE);
+        circle.setStrokeWidth(2);
+        circle.setStrokeType(StrokeType.INSIDE);
+        if(node.getColor() == Color.BLACK) {
+            circle.setStroke(javafx.scene.paint.Color.BLACK);
+        } else {
+            circle.setStroke(javafx.scene.paint.Color.RED);
+        }
+
+        Label label = new Label(node.getKey() + "");
+        label.setPrefHeight(40);
+        label.setPrefWidth(40);
+        label.setLayoutX(10);
+        label.setLayoutY(10);
+        label.setAlignment(Pos.CENTER);
+        label.setFont(new Font(18));
+
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setPrefHeight(60);
+        anchorPane.setPrefWidth(60);
+        anchorPane.getChildren().addAll(circle, label);
+
+        int column = left + ((right - left) / 2);
+        int row = node.getLevel() - 1;
+
+        gridPane.add(anchorPane, column, row);
+
+        if(node.getLeftChild() != Node.Nil) {
+            Line line = new Line();
+            line.setStroke(javafx.scene.paint.Color.BLACK);
+            line.setStrokeWidth(2);
+            line.setLayoutX(gridPane.getLayoutX() + (left + ((column - 1 - left) / 2)) * 60 + 30);
+            line.setLayoutY(gridPane.getLayoutY() + (row + 1) * 60 + 30);
+            line.setStartX(0);
+            line.setStartY(0);
+            line.setEndX((column - (left + ((column - left - 1) / 2))) * 60);
+            line.setEndY(-60);
+            pane.getChildren().add(line);
+
+            generateGrid(pane, gridPane, node.getLeftChild(), left, column - 1);
+        }
+        if(node.getRightChild() != Node.Nil) {
+            Line line = new Line();
+            line.setStroke(javafx.scene.paint.Color.BLACK);
+            line.setStrokeWidth(2);
+            line.setLayoutX(gridPane.getLayoutX() + ((column + 1) + ((right - column - 1) / 2)) * 60 + 30);
+            line.setLayoutY(gridPane.getLayoutY() + (row + 1) * 60 + 30);
+            line.setStartX(0);
+            line.setStartY(0);
+            line.setEndX((column - (left + ((column - left - 1) / 2))) * (-60));
+            line.setEndY(-60);
+            pane.getChildren().add(line);
+
+            generateGrid(pane, gridPane, node.getRightChild(), column + 1, right);
         }
     }
 
