@@ -1,16 +1,16 @@
 package red_black_tree.classes;
 
-public class Node {
+public class RBNode {
     private int key;
-    private Node rightChild;
-    private Node leftChild;
-    private Node parent;
+    private RBNode rightChild;
+    private RBNode leftChild;
+    private RBNode parent;
     private int level;
     private Color color;
 
-    public static Node Nil = new Node(0);
+    public static RBNode Nil = new RBNode(0);
 
-    public Node(int key) {
+    public RBNode(int key) {
         this.key = key;
         this.rightChild = Nil;
         this.leftChild = Nil;
@@ -27,27 +27,27 @@ public class Node {
         this.key = key;
     }
 
-    public Node getRightChild() {
+    public RBNode getRightChild() {
         return rightChild;
     }
 
-    public void setRightChild(Node rightChild) {
+    public void setRightChild(RBNode rightChild) {
         this.rightChild = rightChild;
     }
 
-    public Node getLeftChild() {
+    public RBNode getLeftChild() {
         return leftChild;
     }
 
-    public void setLeftChild(Node leftChild) {
+    public void setLeftChild(RBNode leftChild) {
         this.leftChild = leftChild;
     }
 
-    public Node getParent() {
+    public RBNode getParent() {
         return parent;
     }
 
-    public void setParent(Node parent) {
+    public void setParent(RBNode parent) {
         this.parent = parent;
     }
 

@@ -1,17 +1,17 @@
 package red_black_tree.classes;
 
 public class RBTree {
-    private Node root;
+    private RBNode root;
 
     public RBTree() {
-        this.root = Node.Nil;
+        this.root = RBNode.Nil;
     }
 
-    public Node getRoot() {
+    public RBNode getRoot() {
         return root;
     }
 
-    public void setRoot(Node root) {
+    public void setRoot(RBNode root) {
         this.root = root;
     }
 }
