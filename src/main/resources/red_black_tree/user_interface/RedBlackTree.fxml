@@ -7,34 +7,34 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="red_black_tree.user_interface.RedBlackTreeController">
    <children>
-      <AnchorPane fx:id="header" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1400.0">
+      <AnchorPane fx:id="header" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1400.0" styleClass="antet" stylesheets="@design.css">
          <children>
-            <TextField fx:id="insertValue" alignment="CENTER" layoutX="170.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Value to be inserted">
+            <TextField fx:id="insertValue" alignment="CENTER" focusTraversable="false" layoutX="170.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Value to be inserted" styleClass="user-menu-button" stylesheets="@design.css">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <Button fx:id="insertButton" alignment="CENTER" contentDisplay="CENTER" layoutX="390.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="100.0" text="Insert" textAlignment="CENTER">
+            <Button fx:id="insertButton" alignment="CENTER" contentDisplay="CENTER" layoutX="390.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="100.0" styleClass="login-btn" stylesheets="@design.css" text="Insert" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <TextField fx:id="deleteValue" alignment="CENTER" layoutX="540.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Value to be deleted" styleClass="user-menu-button" stylesheets="@design.css">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
+            <Button fx:id="deleteButton" alignment="CENTER" contentDisplay="CENTER" layoutX="760.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="100.0" styleClass="login-btn" stylesheets="@design.css" text="Delete" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <TextField fx:id="deleteValue" alignment="CENTER" layoutX="540.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Value to be deleted">
+            <TextField fx:id="searchValue" alignment="CENTER" layoutX="910.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Value to be searched" styleClass="user-menu-button" stylesheets="@design.css">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <Button fx:id="deleteButton" alignment="CENTER" contentDisplay="CENTER" layoutX="760.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="100.0" text="Delete" textAlignment="CENTER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <TextField fx:id="searchValue" alignment="CENTER" layoutX="910.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" promptText="Value to be searched">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </TextField>
-            <Button fx:id="searchButton" alignment="CENTER" contentDisplay="CENTER" layoutX="1130.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="100.0" text="Search" textAlignment="CENTER">
+            <Button fx:id="searchButton" alignment="CENTER" contentDisplay="CENTER" layoutX="1130.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="100.0" styleClass="login-btn" stylesheets="@design.css" text="Search" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
@@ -42,24 +42,24 @@
          </children>
       </AnchorPane>
       <AnchorPane fx:id="content" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1400.0" />
-      <AnchorPane fx:id="footer" layoutY="650.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1400.0">
+      <AnchorPane fx:id="footer" layoutY="650.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1400.0" styleClass="antet" stylesheets="@design.css">
          <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="350.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="First Step" textAlignment="CENTER">
+            <Button fx:id="firstStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="350.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="First Step" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="530.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="Previous Step" textAlignment="CENTER">
+            <Button fx:id="prevStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="530.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="Previous Step" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="720.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="Next Step" textAlignment="CENTER">
+            <Button fx:id="nextStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="720.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="Next Step" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="900.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="Last Step" textAlignment="CENTER">
+            <Button fx:id="lastStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="900.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="Last Step" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
