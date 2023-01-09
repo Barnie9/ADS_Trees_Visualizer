@@ -16,6 +16,8 @@ public class IndexController {
     private Button bstButton;
     @FXML
     private Button rbButton;
+    @FXML
+    private Button KMPButton;
 
 
     public void switchIndex(ActionEvent event) throws IOException {
@@ -33,6 +35,14 @@ public class IndexController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+        } else if (event.getSource() == KMPButton) {
+            KMPButton.getScene().getWindow().hide();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("KnuthMorrisPratt.fxml")));
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
+
     }
 }
