@@ -31,12 +31,6 @@ import java.util.List;
 
 public class KnuthMorrisPrattController {
     //  Header
-    private String text;
-    private String pattern;
-    private List<String> textList;
-    private List<String> patternList;
-    private List<Integer> prefix;
-
     @FXML
     private Button kmpRun;
     @FXML
@@ -48,14 +42,27 @@ public class KnuthMorrisPrattController {
     @FXML
     private AnchorPane content;
 
+    //  Footer Buttons
+    @FXML
+    private Button firstStepButton;
+    @FXML
+    private Button prevStepButton;
+    @FXML
+    private Button nextStepButton;
+    @FXML
+    private Button lastStepButton;
+
     private String text;
     private String pattern;
     private List<String> textList;
     private List<String> patternList;
-    private List<Integer> prefix;
+    private List<Integer> prefix = new ArrayList<>();
 
     @FXML
     private AnchorPane kmpFxml;
+
+    private int currentStep = -1;
+    private List<ScrollPane> steps = new ArrayList<>();
     
     public void back() throws IOException {
         try {
@@ -70,24 +77,55 @@ public class KnuthMorrisPrattController {
         }
     }
 
-    private int currentStep = -1;
-    private List<ScrollPane> steps = new ArrayList<>();
-
     @FXML
     public void buttonPressed(ActionEvent event) {
         if(event.getSource() == kmpRun) {
-            // restoreSteps();
+            restoreSteps();
 
             text = textField.getText();
             pattern = patternField.getText();
             textList = generateList(text);
             patternList = generateList(pattern);
 
-            prefix = computePrefix();
+            computePrefix();
 
             kmpMatcher();
-
-            createStepPrefix();
+        } else if(event.getSource() == prevStepButton) {
+            if(currentStep > 0) {
+                currentStep--;
+                for(int i = 0; i < steps.size(); i++) {
+                    if(i != currentStep) {
+                        steps.get(i).setVisible(false);
+                    }
+                }
+                steps.get(currentStep).setVisible(true);
+            }
+        } else if(event.getSource() == nextStepButton) {
+            if(currentStep < steps.size() - 1) {
+                currentStep++;
+                for(int i = 0; i < steps.size(); i++) {
+                    if(i != currentStep) {
+                        steps.get(i).setVisible(false);
+                    }
+                }
+                steps.get(currentStep).setVisible(true);
+            }
+        } else if(event.getSource() == firstStepButton) {
+            if (currentStep != 0) {
+                currentStep = 0;
+                for(int i = 1; i < steps.size(); i++) {
+                    steps.get(i).setVisible(false);
+                }
+                steps.get(currentStep).setVisible(true);
+            }
+        } else if(event.getSource() == lastStepButton) {
+            if (currentStep != steps.size() - 1) {
+                currentStep = steps.size() - 1;
+                for(int i = 0; i < steps.size() - 1; i++) {
+                    steps.get(i).setVisible(false);
+                }
+                steps.get(currentStep).setVisible(true);
+            }
         }
     }
 
@@ -95,7 +133,7 @@ public class KnuthMorrisPrattController {
         if(steps.size() != 0) {
             steps = new ArrayList<>();
             currentStep = -1;
-            // createStep();
+            prefix = new ArrayList<>();
         }
     }
 
@@ -110,9 +148,18 @@ public class KnuthMorrisPrattController {
                 gridPane.add(anchorPane, j, i);
             }
         }
-        gridPane.setLayoutX(50);
-        gridPane.setLayoutY(50);
+        gridPane.setLayoutX(20);
+        gridPane.setLayoutY(60);
         return gridPane;
+    }
+
+    public AnchorPane initializeAnchorPane() {
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.setPrefWidth(1390);
+        anchorPane.setPrefHeight(590);
+        anchorPane.setLayoutX(0);
+        anchorPane.setLayoutY(0);
+        return anchorPane;
     }
 
     public ScrollPane initializeScrollPane() {
@@ -130,20 +177,22 @@ public class KnuthMorrisPrattController {
 
         ScrollPane scrollPane = initializeScrollPane();
 
+        AnchorPane anchorPane = initializeAnchorPane();
+
         GridPane gridPane = initializeGridPane(rows, columns);
 
-        gridPane.setGridLinesVisible(true);
+        // gridPane.setGridLinesVisible(true);
 
-        generateGrid(gridPane);
+        generateGrid(anchorPane, gridPane);
 
-        scrollPane.setContent(gridPane);
+        scrollPane.setContent(anchorPane);
         content.getChildren().add(scrollPane);
 
         steps.add(scrollPane);
         currentStep = steps.size() - 1;
     }
 
-    public void generateGrid(GridPane gridPane) {
+    public void generateGrid(AnchorPane anchorPane, GridPane gridPane) {
         for(int i = 0; i < patternList.size(); i++) {
             Label label1 = new Label();
             label1.setPrefHeight(40);
@@ -183,6 +232,39 @@ public class KnuthMorrisPrattController {
 
             gridPane.add(anchorPane2, i, 1);
         }
+        for(int i = 0; i < prefix.size(); i++) {
+            Label label1 = new Label();
+            label1.setPrefHeight(40);
+            label1.setPrefWidth(40);
+            label1.setAlignment(Pos.CENTER);
+            label1.setFont(new Font(18));
+
+            if(i == 0) {
+                label1.setText("pre");
+            } else {
+                label1.setText(prefix.get(i) + "");
+            }
+
+            AnchorPane anchorPane1 = new AnchorPane();
+            anchorPane1.setPrefHeight(40);
+            anchorPane1.setPrefWidth(40);
+            anchorPane1.getChildren().addAll(label1);
+
+            gridPane.add(anchorPane1, i, 2);
+        }
+
+        Label label = new Label();
+        label.setPrefHeight(50);
+        label.setPrefWidth(1000);
+        label.setLayoutX(50);
+        label.setLayoutY(0);
+        label.setFont(new Font(22));
+        if(prefix.size() == 2) {
+            label.setText("Pasul 0:");
+        } else if(prefix.size() > 2) {
+            label.setText("Pasul " + (prefix.size() - 2) + ": q = " + (prefix.size() - 1) + ", k = " + prefix.get(prefix.size() - 2) + " si prefix[" + (prefix.size() - 1) + "] = " + prefix.get(prefix.size() - 1));
+        }
+        anchorPane.getChildren().addAll(label, gridPane);
     }
 
     public List<String> generateList(String string) {
@@ -194,21 +276,21 @@ public class KnuthMorrisPrattController {
         return list;
     }
 
-    public List<Integer> computePrefix() {
-        List<Integer> list = new ArrayList<>();
-        list.add(-1);
-        list.add(0);
+    public void computePrefix() {
+        prefix.add(-1);
+        prefix.add(0);
+        createStepPrefix();
         int k = 0;
         for(int q = 2; q < patternList.size(); q++) {
             while(k > 0 && !patternList.get(k + 1).equals(patternList.get(q))) {
-                k = list.get(k);
+                k = prefix.get(k);
             }
             if(patternList.get(k + 1).equals(patternList.get(q))) {
                 k++;
             }
-            list.add(k);
+            prefix.add(k);
+            createStepPrefix();
         }
-        return list;
     }
 
     public void kmpMatcher() {
@@ -223,7 +305,7 @@ public class KnuthMorrisPrattController {
                 q++;
             }
             if(q == m - 1) {
-                System.out.println("Pattern occurs with shift" + (i - m));
+                // System.out.println("Pattern occurs with shift" + (i - m));
                 q = prefix.get(q);
             }
         }

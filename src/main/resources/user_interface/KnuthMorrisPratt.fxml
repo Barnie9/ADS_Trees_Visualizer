@@ -23,7 +23,7 @@
                </font>
             </Label>
             <TextField fx:id="patternField" layoutX="700.0" layoutY="10.0" prefHeight="30.0" prefWidth="250.0" />
-            <Button fx:id="kmpRun" layoutX="1195.0" layoutY="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" styleClass="login-btn" stylesheets="@design.css" text="RUN">
+            <Button fx:id="kmpRun" layoutX="1195.0" layoutY="10.0" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="30.0" prefWidth="100.0" styleClass="login-btn" stylesheets="@design.css" text="RUN">
                <font>
                   <Font size="15.0" />
                </font>
@@ -33,22 +33,22 @@
       <AnchorPane fx:id="content" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1400.0" />
       <AnchorPane fx:id="footer" layoutY="650.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1400.0" styleClass="antet" stylesheets="@design.css">
          <children>
-            <Button fx:id="firstStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="350.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="First Step" textAlignment="CENTER">
+            <Button fx:id="firstStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="350.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="First Step" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="prevStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="530.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="Previous Step" textAlignment="CENTER">
+            <Button fx:id="prevStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="530.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="Previous Step" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="nextStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="720.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="Next Step" textAlignment="CENTER">
+            <Button fx:id="nextStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="720.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="Next Step" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="lastStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="900.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="Last Step" textAlignment="CENTER">
+            <Button fx:id="lastStepButton" alignment="CENTER" contentDisplay="CENTER" layoutX="900.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="40.0" prefWidth="150.0" styleClass="login-btn" text="Last Step" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>

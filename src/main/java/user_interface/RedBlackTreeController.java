@@ -121,7 +121,7 @@ public class RedBlackTreeController {
             if(deleteValue.getText().isEmpty()){
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
-                alert.setContentText("Vă rugam introduceti o valoare in textFiled!");
+                alert.setContentText("Vă rugam introduceti o valoare in textField!");
                 alert.showAndWait();
             }  else if (rbNodes.getText().isEmpty()) {
                 alert = new Alert(Alert.AlertType.ERROR);
