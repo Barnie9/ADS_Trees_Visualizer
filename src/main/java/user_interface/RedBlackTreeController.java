@@ -66,6 +66,8 @@ public class RedBlackTreeController {
     private Button lastStepButton;
     @FXML
     private AnchorPane rbFxml;
+    @FXML
+    private Label rbNodes;
 
     public void back() throws IOException {
         try {
@@ -86,6 +88,15 @@ public class RedBlackTreeController {
             restoreSteps();
 
             int value = Integer.parseInt(insertValue.getText());
+
+            String node = insertValue.getText();
+            if(rbNodes.getText().equals(".")) {
+                rbNodes.setText(node);
+                rbNodes.setVisible(true);
+            } else {
+                rbNodes.setText(rbNodes.getText() + ", " + node);
+            }
+
             RBNode rbNode = new RBNode(value);
             insert(rbNode);
 
@@ -177,6 +188,7 @@ public class RedBlackTreeController {
         } else {
             gridPane.setLayoutX(0);
         }
+        gridPane.setLayoutY(40);
         return gridPane;
     }
 
