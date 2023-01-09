@@ -64,6 +64,8 @@ public class RedBlackTreeController {
     private Button nextStepButton;
     @FXML
     private Button lastStepButton;
+
+    //  RBT Page
     @FXML
     private AnchorPane rbFxml;
 
@@ -80,8 +82,9 @@ public class RedBlackTreeController {
             e.printStackTrace();
         }
     }
+
     @FXML
-    void buttonPressed(ActionEvent event) {
+    public void buttonPressed(ActionEvent event) {
         if(event.getSource() == insertButton) {
             restoreSteps();
 
