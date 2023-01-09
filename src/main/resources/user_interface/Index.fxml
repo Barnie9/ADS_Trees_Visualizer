@@ -6,15 +6,24 @@
 
 <AnchorPane fx:id="index" prefHeight="700.0" prefWidth="1400.0" styleClass="antet" stylesheets="@design.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user_interface.IndexController">
    <children>
-      <Button fx:id="rbButton" layoutX="582.0" layoutY="451.0" mnemonicParsing="false" onAction="#switchIndex" prefHeight="50.0" prefWidth="250.0" styleClass="close" stylesheets="@design.css" text="Red Black Tree" textFill="WHITE">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Button>
-      <Button fx:id="bstButton" layoutX="582.0" layoutY="400.0" mnemonicParsing="false" onAction="#switchIndex" prefHeight="50.0" prefWidth="250.0" styleClass="close" stylesheets="@design.css" text="Binary Search Tree" textFill="WHITE">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Button>
+      <AnchorPane layoutX="500.0" layoutY="275.0">
+         <children>
+            <Button fx:id="rbButton" layoutY="100.0" mnemonicParsing="false" onAction="#switchIndex" prefHeight="50.0" prefWidth="400.0" styleClass="close" stylesheets="@design.css" text="Red Black Tree" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
+            <Button fx:id="KMPButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#switchIndex" prefHeight="50.0" prefWidth="400.0" styleClass="close" stylesheets="@design.css" text="Knuth Morris Pratt" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
+            <Button fx:id="bstButton1" layoutY="50.0" mnemonicParsing="false" onAction="#switchIndex" prefHeight="50.0" prefWidth="400.0" styleClass="close" stylesheets="@design.css" text="Binary Search Tree" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
