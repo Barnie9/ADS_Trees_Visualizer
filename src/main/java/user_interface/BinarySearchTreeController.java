@@ -63,6 +63,8 @@ public class BinarySearchTreeController {
     private Button nextStepButton;
     @FXML
     private Button lastStepButton;
+
+    //  BST Page
     @FXML
     private AnchorPane bstFxml;
 
@@ -79,8 +81,9 @@ public class BinarySearchTreeController {
             e.printStackTrace();
         }
     }
+
     @FXML
-    void buttonPressed(ActionEvent event) {
+    public void buttonPressed(ActionEvent event) {
         if(event.getSource() == insertButton) {
             restoreSteps();
 
