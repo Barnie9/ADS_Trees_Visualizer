@@ -1,8 +1,13 @@
 package user_interface;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -18,11 +23,20 @@ import javafx.scene.text.Font;
 import red_black_tree.classes.Color;
 import red_black_tree.classes.RBNode;
 
+import java.io.IOException;
+import java.util.Objects;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class KnuthMorrisPrattController {
     //  Header
+    private String text;
+    private String pattern;
+    private List<String> textList;
+    private List<String> patternList;
+    private List<Integer> prefix;
+
     @FXML
     private Button kmpRun;
     @FXML
@@ -39,6 +53,22 @@ public class KnuthMorrisPrattController {
     private List<String> textList;
     private List<String> patternList;
     private List<Integer> prefix;
+
+    @FXML
+    private AnchorPane kmpFxml;
+    
+    public void back() throws IOException {
+        try {
+            kmpFxml.getScene().getWindow().hide();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Index.fxml")));
+            Stage stage = new Stage();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
     private int currentStep = -1;
     private List<ScrollPane> steps = new ArrayList<>();
