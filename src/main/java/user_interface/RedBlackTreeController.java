@@ -6,10 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.Shadow;
 import javafx.scene.layout.AnchorPane;
@@ -86,47 +83,92 @@ public class RedBlackTreeController {
     }
 
     @FXML
-    public void buttonPressed(ActionEvent event) {
+    void buttonPressed(ActionEvent event) {
+        Alert alert;
         if(event.getSource() == insertButton) {
-            restoreSteps();
-
-            int value = Integer.parseInt(insertValue.getText());
-
-            String node = insertValue.getText();
-            if(rbNodes.getText().equals(".")) {
-                rbNodes.setText(node);
-                rbNodes.setVisible(true);
+            if(insertValue.getText().isEmpty()){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare in textField!");
+                alert.showAndWait();
+            } else if (!insertValue.getText().matches("^[1-9][0-9]{0,2}$")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare validă!");
+                alert.showAndWait();
             } else {
-                rbNodes.setText(rbNodes.getText() + ", " + node);
+                restoreSteps();
+
+                int value = Integer.parseInt(insertValue.getText());
+
+                String node = insertValue.getText();
+                if (rbNodes.getText().isEmpty()) {
+                    rbNodes.setText(node);
+                } else {
+                    rbNodes.setText(rbNodes.getText() + ", " + node);
+                }
+
+                RBNode rbNode = new RBNode(value);
+                insert(rbNode);
+
+                // System.out.println(depth(tree.getRoot()));
+                // System.out.println(sumPower(depth(tree.getRoot())));
+
+                // display(tree.getRoot(), 1);
             }
-
-            RBNode rbNode = new RBNode(value);
-            insert(rbNode);
-
-            // System.out.println(depth(tree.getRoot()));
-            // System.out.println(sumPower(depth(tree.getRoot())));
-
-            // display(tree.getRoot(), 1);
             insertValue.setText("");
         } else if(event.getSource() == deleteButton) {
-            restoreSteps();
+            if(deleteValue.getText().isEmpty()){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare in textFiled!");
+                alert.showAndWait();
+            }  else if (rbNodes.getText().isEmpty()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam inserati o valoare în arbore!");
+                alert.showAndWait();
+            } else if (!deleteValue.getText().matches("^[1-9][0-9]{0,2}$")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare validă!");
+                alert.showAndWait();
+            } else {
+                restoreSteps();
 
-            int value = Integer.parseInt(deleteValue.getText());
-            RBNode rbNode = search(tree.getRoot(), value);
+                int value = Integer.parseInt(deleteValue.getText());
+                RBNode rbNode = search(tree.getRoot(), value);
 
-            if(rbNode != RBNode.Nil) {
-                delete(rbNode);
+                if (rbNode != RBNode.Nil) {
+                    delete(rbNode);
+                }
+
+                // display(tree.getRoot(), 1);
             }
-
-            // display(tree.getRoot(), 1);
             deleteValue.setText("");
         } else if(event.getSource() == searchButton) {
-            restoreSteps();
+            if(searchValue.getText().isEmpty()){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare in textField!");
+                alert.showAndWait();
+            } else if (!searchValue.getText().matches("^[1-9][0-9]{0,2}$")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare validă!");
+                alert.showAndWait();
+            } else if (rbNodes.getText().isEmpty()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam inserati o valoare în arbore!");
+                alert.showAndWait();
+            } else {
+                restoreSteps();
 
-            int value = Integer.parseInt(searchValue.getText());
-            RBNode rbNode = search(tree.getRoot(), value);
+                int value = Integer.parseInt(searchValue.getText());
+                RBNode rbNode = search(tree.getRoot(), value);
+            }
             searchValue.setText("");
-
             // System.out.println("Found: " + RBNode.getKey());
         } else if(event.getSource() == prevStepButton) {
             if(currentStep > 0) {

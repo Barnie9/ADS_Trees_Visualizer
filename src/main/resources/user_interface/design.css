@@ -2,7 +2,7 @@
     -fx-background-color: #9ca3af;
     -fx-background-radius:8px;
     -fx-text-fill: black;
-    -fx-font-size: 19px;
+    /*-fx-font-size: 19px;*/
     -fx-cursor: hand;
 }
 .login-btn:hover {
