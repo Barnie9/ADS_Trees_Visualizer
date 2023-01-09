@@ -18,7 +18,7 @@
                   <Font size="17.0" />
                </font>
             </Button>
-            <Button fx:id="bstButton1" layoutY="50.0" mnemonicParsing="false" onAction="#switchIndex" prefHeight="50.0" prefWidth="400.0" styleClass="close" stylesheets="@design.css" text="Binary Search Tree" textFill="WHITE">
+            <Button fx:id="bstButton" layoutY="50.0" mnemonicParsing="false" onAction="#switchIndex" prefHeight="50.0" prefWidth="400.0" styleClass="close" stylesheets="@design.css" text="Binary Search Tree" textFill="WHITE">
                <font>
                   <Font size="17.0" />
                </font>

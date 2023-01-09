@@ -7,10 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.Shadow;
 import javafx.scene.layout.AnchorPane;
@@ -65,6 +62,8 @@ public class BinarySearchTreeController {
     private Button lastStepButton;
     @FXML
     private AnchorPane bstFxml;
+    @FXML
+    private Label bstNodes;
 
     public void back() throws IOException {
         try {
@@ -81,35 +80,90 @@ public class BinarySearchTreeController {
     }
     @FXML
     void buttonPressed(ActionEvent event) {
+        Alert alert;
         if(event.getSource() == insertButton) {
-            restoreSteps();
+            if(insertValue.getText().isEmpty()){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare in textField!");
+                alert.showAndWait();
+            } else if (!insertValue.getText().matches("^[1-9][0-9]{0,2}$")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare validă!");
+                alert.showAndWait();
+            } else {
+                restoreSteps();
 
-            int value = Integer.parseInt(insertValue.getText());
-            Node Node = new Node(value);
-            insert(Node);
+                int value = Integer.parseInt(insertValue.getText());
 
-            // System.out.println(depth(tree.getRoot()));
-            // System.out.println(sumPower(depth(tree.getRoot())));
+                String node = insertValue.getText();
+                if (bstNodes.getText().isEmpty()) {
+                    bstNodes.setText(node);
+                } else {
+                    bstNodes.setText(bstNodes.getText() + ", " + node);
+                }
 
-            // display(tree.getRoot(), 1);
+                Node Node = new Node(value);
+                insert(Node);
+
+                // System.out.println(depth(tree.getRoot()));
+                // System.out.println(sumPower(depth(tree.getRoot())));
+
+                // display(tree.getRoot(), 1);
+            }
             insertValue.setText("");
         } else if(event.getSource() == deleteButton) {
-            restoreSteps();
+            if(deleteValue.getText().isEmpty()){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare in textFiled!");
+                alert.showAndWait();
+            }  else if (bstNodes.getText().isEmpty()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam inserati o valoare în arbore!");
+                alert.showAndWait();
+            } else if (!deleteValue.getText().matches("^[1-9][0-9]{0,2}$")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare validă!");
+                alert.showAndWait();
+            } else {
+                restoreSteps();
 
-            int value = Integer.parseInt(deleteValue.getText());
-            Node Node = search(tree.getRoot(), value);
+                int value = Integer.parseInt(deleteValue.getText());
+                Node Node = search(tree.getRoot(), value);
 
-            if(Node != Node.Nil) {
-                delete(Node);
+                if (Node != Node.Nil) {
+                    delete(Node);
+                }
+
+                // display(tree.getRoot(), 1);
             }
-
-            // display(tree.getRoot(), 1);
             deleteValue.setText("");
         } else if(event.getSource() == searchButton) {
-            restoreSteps();
+            if(searchValue.getText().isEmpty()){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare in textField!");
+                alert.showAndWait();
+            } else if (!searchValue.getText().matches("^[1-9][0-9]{0,2}$")) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam introduceti o valoare validă!");
+                alert.showAndWait();
+            } else if (bstNodes.getText().isEmpty()) {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Vă rugam inserati o valoare în arbore!");
+                alert.showAndWait();
+            } else {
+                restoreSteps();
 
-            int value = Integer.parseInt(searchValue.getText());
-            Node Node = search(tree.getRoot(), value);
+                int value = Integer.parseInt(searchValue.getText());
+                Node Node = search(tree.getRoot(), value);
+            }
             searchValue.setText("");
 
             // System.out.println("Found: " + Node.getKey());
@@ -176,6 +230,7 @@ public class BinarySearchTreeController {
         } else {
             gridPane.setLayoutX(0);
         }
+        gridPane.setLayoutY(40);
         return gridPane;
     }
 
