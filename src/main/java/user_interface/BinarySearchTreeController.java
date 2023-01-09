@@ -60,6 +60,8 @@ public class BinarySearchTreeController {
     private Button nextStepButton;
     @FXML
     private Button lastStepButton;
+
+    //  BST Page
     @FXML
     private AnchorPane bstFxml;
     @FXML
@@ -78,6 +80,7 @@ public class BinarySearchTreeController {
             e.printStackTrace();
         }
     }
+
     @FXML
     void buttonPressed(ActionEvent event) {
         Alert alert;
