@@ -78,7 +78,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <Label layoutX="25.0" layoutY="50.0" prefHeight="40.0" prefWidth="1350.0">
+      <Label fx:id="rbNodes" layoutX="25.0" layoutY="50.0" prefHeight="40.0" prefWidth="1350.0" text="." visible="false">
          <font>
             <Font size="18.0" />
          </font>
